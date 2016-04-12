@@ -1,0 +1,15 @@
+.DS_Store
+Resources
+build.log
+build
+npm-debug.log
+tmp
+.map
+.project
+.settings
+Thumbs.db
+.nyc_output
+coverage
+i18n
+platform
+node_modules
