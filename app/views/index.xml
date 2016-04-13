@@ -1,5 +1,8 @@
 <Alloy>
-	<Window id="win" class="container" title="hey">
-		<Label id="label" onClick="doClick">Hello, World!</Label>
+	<Window id="win" class="container">
+    <View id="wrapper" layout="vertical" top="40">
+  		<Label id="label" onClick="doClick">Hello, World!</Label>
+      <ImageView id="imageDilbert" image="/images/dilbert.jpg" top="20" />
+    </View>
 	</Window>
 </Alloy>

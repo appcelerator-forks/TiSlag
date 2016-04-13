@@ -4,7 +4,9 @@
   "description": "Welcome to your Appcelerator Titanium Mobile Project",
   "main": "index.js",
   "scripts": {
-    "test": "alloy compile --config platform=ios && mocha test.js",
+    "start": "appc run -p ios -C? --liveview",
+    "test": "alloy compile --config platform=ios && ava \"app/**/*.test.js\" --verbose --serial",
+    "test:watch": "alloy compile --config platform=ios && ava \"app/**/*.test.js\" --verbose --watch",
     "coverage": "nyc npm test && nyc report"
   },
   "config": {
@@ -19,9 +21,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "app-root-path": "^1.0.0",
+    "ava": "^0.14.0",
     "chai": "^3.5.0",
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
     "nyc": "^6.4.0",
     "signal-exit": "^2.1.2",
     "ti-slag": "0.0.25"
