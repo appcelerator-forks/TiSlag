@@ -1,5 +1,7 @@
 <Alloy>
-	<View class="container">
-    <Label id="label">About</Label>
-	</View>
+  <Window id="win" class="container" layout="composite">
+  	<View id="wrapper" layout="vertical" class="content">
+      <Label id="label">About</Label>
+  	</View>
+  </Window>
 </Alloy>

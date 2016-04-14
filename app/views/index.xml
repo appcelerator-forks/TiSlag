@@ -1,6 +1,6 @@
 <Alloy>
-	<Window id="win" class="container">
-    <View id="wrapper" layout="vertical" top="40">
+	<Window id="win" class="container" layout="composite">
+    <View id="wrapper" layout="vertical" class="content">
   		<Label id="label" onClick="doClick">Hello, World!</Label>
       <ImageView id="imageDilbert" image="/images/dilbert.jpg" top="20" />
     </View>

@@ -7,49 +7,86 @@ var assert = require('chai').assert,
     path = require('path'),
     appRoot = require('app-root-path');
 
-var context,
+var mobileTarget = process.env.MOBILETARGET;
+
+var context;
+var alloy;
+
+if (mobileTarget === 'iphone') {
   alloy = Alloy.load({
     titanium: '5.2.0.GA',
     platform: 'ios',
-    alloy: path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy.js'),
-    BaseController: path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy', 'controllers', 'BaseController.js'),
-    underscore: path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy', 'underscore.js'),
-    backbone: path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy', 'backbone.js'),
-    constants: path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy', 'constants.js'),
-    CFG: path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy', 'CFG.js')
+    alloy: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy.js'),
+    BaseController: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'controllers', 'BaseController.js'),
+    underscore: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'underscore.js'),
+    backbone: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'backbone.js'),
+    constants: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'constants.js'),
+    CFG: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'CFG.js')
   });
 
-context = slag(path.join(appRoot.toString(), 'Resources', 'iphone', 'alloy', 'controllers', 'index.js'), {
+  context = slag(path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'controllers', 'index.js'), {
+      titanium: '5.2.0.GA',
+      platform: 'ios',
+      module: {
+        alloy: alloy.core,
+        'alloy/controllers/BaseController' : alloy.BaseController
+      }
+  });
+}
+
+if (mobileTarget === 'android') {
+  alloy = Alloy.load({
     titanium: '5.2.0.GA',
-    platform: 'ios',
-    module: {
-      alloy: alloy.core,
-      'alloy/controllers/BaseController' : alloy.BaseController
-    }
+    platform: 'android',
+    alloy: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy.js'),
+    BaseController: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'controllers', 'BaseController.js'),
+    underscore: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'underscore.js'),
+    backbone: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'backbone.js'),
+    constants: path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'constants.js'),
+    CFG: path.join(appRoot.toString(), 'Resources', 'alloy', 'CFG.js')
+  });
+
+  context = slag(path.join(appRoot.toString(), 'Resources', mobileTarget, 'alloy', 'controllers', 'index.js'), {
+      titanium: '5.2.0.GA',
+      platform: 'android',
+      module: {
+        alloy: alloy.core,
+        'alloy/controllers/BaseController' : alloy.BaseController
+      }
+  });
+}
+
+test('<Window> should have a layout of "composite"', function() {
+  context.Controller();
+  assert.strictEqual(context.win.layout, 'composite');
 });
 
-test('should have args', function() {
+test('<Window> should have a background color of "white"', function() {
+  context.Controller();
+  assert.strictEqual(context.win.backgroundColor, 'white');
+});
+
+test('<Window> should have a wrapper view with a layout of "vertical"', function() {
+  context.Controller();
+  assert.strictEqual(context.wrapper.layout, 'vertical');
+});
+
+test('Controller should have args', function() {
   context.Controller();
   assert.isNotNull(context.args, 'Args are here!');
 });
 
-test('should have a label with text Hello, World', function() {
+test('<Label id="label"> should have a text value "Hello, World"', function() {
   context.Controller();
   assert.strictEqual(context.label.text, 'Hello, World!');
 });
 
-test('should label color is \'#999\'', function(){
+test('<Label id="label"> should be the color \'#999\'', function(){
   context.Controller();
   assert.strictEqual(context.label.color, '#000');
 });
 
-test('should have a dilbert image', function() {
+test('<ImageView id="imageDilbert" /> should be a dilbert image', function() {
   context.Controller();
   should.exist(context.imageDilbert.image);
 })
-
-test('Should Do Not Throw Exception Controller' , function () {
-    assert.doesNotThrow (function () {
-        context.Controller();
-    });
-});
